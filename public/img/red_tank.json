@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 0, "y": 0, "w": 96, "h": 96 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 16, "y": 8, "w": 96, "h": 96 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 96, "y": 0, "w": 96, "h": 96 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 16, "y": 8, "w": 96, "h": 96 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "red_tank.png",
+  "format": "RGBA8888",
+  "size": { "w": 192, "h": 96 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "red_tank", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
