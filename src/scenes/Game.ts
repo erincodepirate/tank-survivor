@@ -20,10 +20,13 @@ export default class TankSurvivor extends Phaser.Scene {
 
   preload() {
     this.load.path = 'img/';
+    this.load.image('background', 'brickfloor.png');
     this.load.aseprite('red_tank', 'red_tank.png', 'red_tank.json');
   }
 
   create() {
+
+    this.add.tileSprite(0, 0, this.sceneX * 4, this.sceneY * 4, 'background');
     this.tank_anim = this.anims.createFromAseprite('red_tank');
     this.tank = this.physics.add.sprite(this.sceneX / 2, this.sceneY / 2, 'red_tank');
     this.tank.setDamping(true);
@@ -40,7 +43,7 @@ export default class TankSurvivor extends Phaser.Scene {
       if (this.tank_move !== 1) {
         this.tank.play({
           key: 'red_tank',
-          repeat: -1 
+          repeat: -1
         });
         this.tank_move = 1
       }
