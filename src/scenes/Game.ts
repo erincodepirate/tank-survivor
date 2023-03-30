@@ -1,7 +1,18 @@
 import Phaser from 'phaser';
 import config from '../config';
 
+class Bullet {
+  bulletRect: Phaser.GameObjects.Rectangle;
+  distanceTraveled: number = 0;
+
+  constructor(add: any, x: number, y: number) {
+    this.bulletRect = add.rectangle(x + 64, y + 64, 5, 15, 0xffbb00, 1)
+  }
+
+}
+
 export default class TankSurvivor extends Phaser.Scene {
+
 
   tank: any;
   tank_move = 0; // 0 = stop, 1 = move forward, 2 = move backward
@@ -11,6 +22,11 @@ export default class TankSurvivor extends Phaser.Scene {
 
   sceneX: number = parseFloat(config.scale.width.toString());
   sceneY: number = parseFloat(config.scale.height.toString());
+
+  bullets: Bullet[] = [];
+  bulletSpeed: number = 5;
+  bulletTime: number = 0;
+  bulletTravelDist: number = 256;
 
   speed = 200;
 
@@ -73,6 +89,45 @@ export default class TankSurvivor extends Phaser.Scene {
       this.tank.setAngularVelocity(0);
     }
 
+    if (this.buttons.space.isDown && this.bulletTime <= 0) {
+      this.fireMainGun();
+      this.bulletTime = 10;
+    }
+    else {
+      this.bulletTime -= 1;
+    }
+
+    this.updateBullets();
+
     this.physics.world.wrap(this.tank, 32);
+  }
+
+  fireMainGun() {
+    var bullet = new Bullet(this.add, this.tank.body.x, this.tank.body.y);
+    bullet.bulletRect.rotation = this.tank.rotation;
+    this.updatePosition(62, bullet.bulletRect);
+    this.bullets.push(bullet);
+  }
+
+  updateBullets() {
+    for (let i = 0; i < this.bullets.length; i++) {
+      let bullet = this.bullets[i];
+      let bulletRect = this.bullets[i].bulletRect;
+      this.updatePosition(this.bulletSpeed, bulletRect);
+      bullet.distanceTraveled += this.bulletSpeed;
+
+      if (bullet.distanceTraveled >= this.bulletTravelDist || bulletRect.x < 0 || bulletRect.y < 0) {
+        this.bullets.splice(i, 1);
+        bulletRect.destroy();
+      }
+      else {
+
+      }
+    }
+  }
+
+  updatePosition(speed: number, object: Phaser.GameObjects.Rectangle) {
+    object.x += speed * Math.sin(object.rotation);
+    object.y -= speed * Math.cos(object.rotation);
   }
 }
