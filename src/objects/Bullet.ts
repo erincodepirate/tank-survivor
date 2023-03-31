@@ -4,7 +4,7 @@ export class Bullet {
     bulletRect: Phaser.GameObjects.Rectangle;
     distanceTraveled: number = 0;
   
-    constructor(add: any, x: number, y: number) {
+    constructor(add: Phaser.GameObjects.GameObjectFactory, x: number, y: number) {
       this.bulletRect = add.rectangle(x + 64, y + 64, 5, 15, 0xffbb00, 1);
     }
   
