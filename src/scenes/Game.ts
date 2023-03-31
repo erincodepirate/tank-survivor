@@ -6,7 +6,31 @@ class Bullet {
   distanceTraveled: number = 0;
 
   constructor(add: any, x: number, y: number) {
-    this.bulletRect = add.rectangle(x + 64, y + 64, 5, 15, 0xffbb00, 1)
+    this.bulletRect = add.rectangle(x + 64, y + 64, 5, 15, 0xffbb00, 1);
+  }
+
+  destroy() {
+    this.bulletRect.destroy();
+  }
+
+  public get x(): number {
+    return this.bulletRect.x;
+  }
+
+  public set x(newX: number) {
+    this.bulletRect.x = newX;
+  }
+
+  public get y(): number {
+    return this.bulletRect.y;
+  }
+
+  public set y(newY: number) {
+    this.bulletRect.y = newY;
+  }
+
+  public get rotation(): number {
+    return this.bulletRect.rotation;
   }
 
 }
@@ -105,20 +129,19 @@ export default class TankSurvivor extends Phaser.Scene {
   fireMainGun() {
     var bullet = new Bullet(this.add, this.tank.body.x, this.tank.body.y);
     bullet.bulletRect.rotation = this.tank.rotation;
-    this.updatePosition(62, bullet.bulletRect);
+    this.updatePosition(62, bullet);
     this.bullets.push(bullet);
   }
 
   updateBullets() {
     for (let i = 0; i < this.bullets.length; i++) {
       let bullet = this.bullets[i];
-      let bulletRect = this.bullets[i].bulletRect;
-      this.updatePosition(this.bulletSpeed, bulletRect);
+      this.updatePosition(this.bulletSpeed, bullet);
       bullet.distanceTraveled += this.bulletSpeed;
 
-      if (bullet.distanceTraveled >= this.bulletTravelDist || bulletRect.x < 0 || bulletRect.y < 0) {
+      if (bullet.distanceTraveled >= this.bulletTravelDist || bullet.x < 0 || bullet.y < 0) {
         this.bullets.splice(i, 1);
-        bulletRect.destroy();
+        bullet.destroy();
       }
       else {
 
@@ -126,7 +149,7 @@ export default class TankSurvivor extends Phaser.Scene {
     }
   }
 
-  updatePosition(speed: number, object: Phaser.GameObjects.Rectangle) {
+  updatePosition(speed: number, object: Bullet) {
     object.x += speed * Math.sin(object.rotation);
     object.y -= speed * Math.cos(object.rotation);
   }
